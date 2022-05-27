@@ -9,6 +9,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.Random;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,16 +19,25 @@ public class MainActivity extends AppCompatActivity {
     final int[] drawable = new int[]{R.drawable.animals_1,R.drawable.animals_2,R.drawable.animals_3,
             R.drawable.animals_4 ,R.drawable.animals_5,R.drawable.animals_6,R.drawable.animals_7,R.drawable.animals_8};
 
-    //below 'pos' variable is assigning the position to images
-    //we have to make it random
-    //so how can we do that --->(Vinayak)?
+    int[] pos = {0,1,2,3,4,5,6,7,0,1,2,3,4,5,6,7};
 
-    int[] pos = {0,0,2,3,4,5,6,7,1,1,2,3,4,5,6,7};
     int currentPos = -1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Random rd = new Random();
+        for (int i = 15; i > 0; i--) {
+
+            // Pick a random index from 0 to i
+            int j = rd.nextInt(i+1);
+
+            // Swap array[i] with the element at random index
+            int temp = pos[i];
+            pos[i] = pos[j];
+            pos[j] = temp;
+        }
 
         GridView gridView = (GridView) findViewById(R.id.gridView);
         ImageAdapter imageAdapter = new ImageAdapter(this);
@@ -57,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                         ((ImageView)view).setImageResource(drawable[pos[position]]);
                         countPair++;
 
-                        if(countPair==0)
+                        if(countPair==8)
                         {
                             Toast.makeText(getApplicationContext(),"You Win", Toast.LENGTH_SHORT).show();
                         }
